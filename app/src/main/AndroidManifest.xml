@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
         </activity>
-  <activity android:name=".countrylist.CountryListActivity">
+  <activity android:name=".countrylist.CountryListActivity"/>
         <activity android:name=".authentication.login.UserLogin">
     <meta-data
                 android:name="android.app.searchable"
