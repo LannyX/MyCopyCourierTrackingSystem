@@ -11,4 +11,5 @@ public interface UserLoginContract {
     interface UserLoginPresenter{
         void requestData(String email, String password, SharedPreferences sharedPreferences);
     }
+
 }
