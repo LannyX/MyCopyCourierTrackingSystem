@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">B16CourierTrackingSystem</string>
     <string name="hello_team">Hello Team!</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -3,36 +3,33 @@ package com.rjt.b16couriertrackingsystem.countrylist;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rjt.b16couriertrackingsystem.R;
 import com.rjt.b16couriertrackingsystem.countrylist.model.Countries;
-import com.rjt.b16couriertrackingsystem.countrylist.model.CountriesList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyCountryListAdapter extends RecyclerView.Adapter<MyCountryListAdapter.MyViewHolder>
-    implements Filterable {
+public class MyCountryAdapter extends RecyclerView.Adapter<MyCountryAdapter.MyViewHolder> implements Filterable {
 
-    CountriesList myCountries;
-    CountriesList myList;
-    List<Countries> filteredList = new ArrayList<>();
-    List<Countries> itemsFiltered;
+    List<Countries> myCountries = new ArrayList<>();
+    List<Countries> countriesFiltered;
 
-    public MyCountryListAdapter(CountriesList myCountries) {
+    public MyCountryAdapter(List<Countries> myCountries) {
         this.myCountries = myCountries;
     }
 
     @NonNull
     @Override
-    public MyCountryListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MyCountryAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.countrylist_view_item, viewGroup, false);
 
         return new MyViewHolder(view);
@@ -46,19 +43,27 @@ public class MyCountryListAdapter extends RecyclerView.Adapter<MyCountryListAdap
             super(itemView);
 
             vAlbumId = itemView.findViewById(R.id.textViewCountryName);
+
         }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyCountryListAdapter.MyViewHolder myViewHolder, int i) {
-        CountriesList list = myCountries;
-
-        myViewHolder.vAlbumId.setText(list.getCountryList().get(i).getCountryname());
+    public void onBindViewHolder(@NonNull MyCountryAdapter.MyViewHolder myViewHolder, int i) {
+//        List<Countries> list = myCountries;
+        final Countries country = myCountries.get(i);
+        myViewHolder.vAlbumId.setText(country.getCountryname());
+        
+        myViewHolder.itemView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), country.getCountryname(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return myCountries.getCountryList().size();
+        return myCountries.size();
     }
 
     @Override
@@ -67,28 +72,30 @@ public class MyCountryListAdapter extends RecyclerView.Adapter<MyCountryListAdap
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
+                List<Countries> filtered = new ArrayList<>();
 
                 if (charString.isEmpty()) {
-                    filteredList = myCountries.getCountryList();
+                    filtered = myCountries;
                 } else {
-                    for (Countries i : myCountries.getCountryList()) {
+                    for (Countries i : myCountries) {
                         if (i.getCountryname().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            filteredList.add(i);
-                            Log.i("xxx", i.getCountryname());
+                            filtered.add(i);
                         }
                     }
-//                    myList = (CountriesList) filteredList;
                 }
                 FilterResults filterResults = new FilterResults();
-                filterResults.count = filteredList.size();
-                filterResults.values = filteredList;
+                filterResults.count = filtered.size();
+                filterResults.values = filtered;
+//                Log.i("xxx", filteredList.get(0).getCountryname());
                 return filterResults;
+
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                itemsFiltered = (List<Countries>) filterResults.values;
-                //Log.i("xxx", String.valueOf(filteredList.size()));
+                myCountries = (List<Countries>) filterResults.values;
+
+//                Log.i("xxx", myCountries.getCountryList().toString());
                 notifyDataSetChanged();
             }
         };
