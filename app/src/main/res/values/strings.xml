@@ -2,4 +2,8 @@
     <string name="app_name">B16CourierTrackingSystem</string>
     <string name="hello_team">Hello Team!</string>
     <string name="title_activity_maps">Map</string>
+    <string name="google_places_key">AIzaSyCk_9jese_LOOQjUIGQsf33jXE6hQmfNgo</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
